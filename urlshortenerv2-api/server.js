@@ -9,8 +9,9 @@ const urls = require('./routes/url.route');
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
-app.use('/url', urls)
+app.use('/', urls)
 
 const uri = require('./config/keys').mongoURI;
 const PORT = process.env.PORT || 8080;

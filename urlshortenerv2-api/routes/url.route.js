@@ -3,30 +3,42 @@ const router = express.Router();
 const SHA256 = require('crypto-js/sha256');
 
 const URL = require('../models/URL');
-const secretKey = require('../config/keys').secretKey;
 
 // Hashes the URL
 router.post('/hashURL', (req, res) =>{
-    const urlHash = SHA256(req.body, secretKey);
-    URL.findOne({url: req.body.url}).then(url => {
+    URL.findOne({fullURL: req.body.url}).then(url => {
         // URL doesn't already exist in database
         if(!url){
             // Create new hash for URL
+            const urlHash = SHA256(req.body.url).toString().substring(0, 8);
             const newURL = new URL({
-                url: req.body.url,
+                fullURL: req.body.url,
                 hash: urlHash,
-                shortenedURL: `localhost:3000/${urlHash}`
+                shortenedURL: `localhost:8080/${urlHash}`
             });
             // Save the URL
             newURL.save().then(url => {
-                res.json(newURL.shortenedURL);
+                return res.json(newURL.shortenedURL);
             }).catch(err => {
-                res.json(err);
+                return res.json(err);
             })
         } else{
-            res.json(url.shortenedURL);
+            return res.json(url.shortenedURL);
         }
     })
 });
+
+// Redircts the URL
+router.get('/:shortenedURL', (req, res) => {
+    URL.findOne({hash: req.params.shortenedURL}).then(url =>{
+        
+        // URL doesn't exist, so send 404
+        if(!url){
+            return res.sendStatus(404)
+        }
+
+        return res.redirect(url.fullURL);
+    })
+})
 
 module.exports = router;

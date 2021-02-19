@@ -4,14 +4,17 @@ const Schema = mongoose.Schema;
 
 // Create Schema
 const URLSchema = new Schema ({
-    url:{
+    fullURL:{
         type: String,
+        required: true
     },
     hash:{
         type: String,
+        required: true
     },
     shortenedURL:{
         type: String,
+        required: true
     }
 });
 
