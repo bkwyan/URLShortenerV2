@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { GlobalStyle } from './components/styles/GlobalStyle';
 import URLForm from './components/URLForm';
+import URLTable from './components/URLTable';
+import Hero from './components/Hero';
 
 const App = () => {
 
@@ -18,10 +20,12 @@ const App = () => {
   return (
     <>
       <GlobalStyle/>
+      <Hero/>
       <URLForm
         handleURL={setUrl}
         onSubmit={onSubmit}
       />
+      <URLTable/>
     </>
   );
 }
