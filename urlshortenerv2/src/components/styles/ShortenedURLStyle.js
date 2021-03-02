@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const URLTableContainer = styled.div`
+export const ShortenedURLContainer = styled.div`
     padding: 50px;
     display: flex;
     flex-direction: column;

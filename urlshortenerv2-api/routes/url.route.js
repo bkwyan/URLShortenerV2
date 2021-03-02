@@ -41,4 +41,9 @@ router.get('/:shortenedURL', (req, res) => {
     })
 })
 
+// Redircts the URL
+router.get('/', (req, res) => {
+    res.send("Hello World");
+})
+
 module.exports = router;

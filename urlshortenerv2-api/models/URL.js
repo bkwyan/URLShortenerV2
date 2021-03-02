@@ -6,15 +6,12 @@ const Schema = mongoose.Schema;
 const URLSchema = new Schema ({
     fullURL:{
         type: String,
-        required: true
     },
     hash:{
         type: String,
-        required: true
     },
     shortenedURL:{
         type: String,
-        required: true
     }
 });
 

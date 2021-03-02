@@ -1,20 +1,27 @@
 import React, { useState } from 'react';
 import { GlobalStyle } from './components/styles/GlobalStyle';
 import URLForm from './components/URLForm';
-import URLTable from './components/URLTable';
+import ShortenedURL from './components/ShortenedURL';
 import Hero from './components/Hero';
+import axios from 'axios';
 
 const App = () => {
 
   const[url, setUrl] = useState('');
-  const[showShortenedURL, setShowShortenedURL] = useState('');
   const[hash, setHash] = useState('');
   const[shortenedURL, setShortenedURL] = useState('');
 
   const onSubmit = () =>{
-    // Fetch API to create new API
-    // Pass in URL
-    // Set the hash, set the shortenedURL, and setShowShortenedURL
+    // Fetch API to create new URL
+    const {data} = axios({
+      method: 'post',
+      url: 'http://localhost:8080/hashURL',
+      data: {
+        url: url
+      }
+    })
+    .then(response => setShortenedURL(response.data));
+    console.log(shortenedURL)
   }
 
   return (
@@ -25,7 +32,7 @@ const App = () => {
         handleURL={setUrl}
         onSubmit={onSubmit}
       />
-      <URLTable/>
+      <ShortenedURL/>
     </>
   );
 }
