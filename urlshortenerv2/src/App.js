@@ -7,11 +7,11 @@ import axios from 'axios';
 
 const App = () => {
 
-  const[url, setUrl] = useState('');
-  const[hash, setHash] = useState('');
-  const[shortenedURL, setShortenedURL] = useState('');
+  const[url, setURL] = useState([]);
+  const[shortenedURLs, setShortenedURL] = useState([]);
 
-  const onSubmit = () =>{
+  const onSubmit = (url) =>{
+    addURL(url);
     // Fetch API to create new URL
     const {data} = axios({
       method: 'post',
@@ -20,8 +20,16 @@ const App = () => {
         url: url
       }
     })
-    .then(response => setShortenedURL(response.data));
-    console.log(shortenedURL)
+    .then(response => addShortenedURL(response.data));
+    console.log(shortenedURLs)
+  }
+
+  const addURL = (state, url) => {
+    setURL(...state, url);
+  }
+
+  const addShortenedURL = (state, shortenedURL) => {
+    setShortenedURL(...state, shortenedURL);
   }
 
   return (
@@ -29,10 +37,11 @@ const App = () => {
       <GlobalStyle/>
       <Hero/>
       <URLForm
-        handleURL={setUrl}
         onSubmit={onSubmit}
       />
-      <ShortenedURL/>
+      {shortenedURLs.map((shortenedURL, i) => {
+        <ShortenedURL shortenedURL={shortenedURL} url={url[i]}/>
+      })}
     </>
   );
 }
