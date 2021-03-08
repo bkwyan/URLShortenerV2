@@ -8,12 +8,12 @@ import {
   CopyColumn,
 } from "./styles/ShortenedURLStyle";
 
-const ShortenedURL = () => {
+const ShortenedURL = (props) => {
   return (
     <ShortenedURLContainer>
       <Row>
-        <FullUrlColumn>Some Full URL</FullUrlColumn>
-        <ShortenedURLColumn>Some Shortened URL</ShortenedURLColumn>
+        <FullUrlColumn>{props.fullURL}</FullUrlColumn>
+        <ShortenedURLColumn>{props.shortURL}</ShortenedURLColumn>
         <CopyColumn>Copy</CopyColumn>
       </Row>
     </ShortenedURLContainer>

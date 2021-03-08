@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { GlobalStyle } from './components/styles/GlobalStyle';
 import URLForm from './components/URLForm';
 import ShortenedURL from './components/ShortenedURL';
@@ -7,30 +7,32 @@ import axios from 'axios';
 
 const App = () => {
 
-  const[url, setURL] = useState([]);
-  const[shortenedURLs, setShortenedURL] = useState([]);
+  const[urls, setURL] = useState([]);
 
-  const onSubmit = (url) =>{
-    addURL(url);
+  const onSubmit = (fullURL) =>{
     // Fetch API to create new URL
     const {data} = axios({
       method: 'post',
       url: 'http://localhost:8080/hashURL',
       data: {
-        url: url
+        url: fullURL
       }
     })
-    .then(response => addShortenedURL(response.data));
-    console.log(shortenedURLs)
+    .then(response => addURL(fullURL, response.data));
   }
 
-  const addURL = (state, url) => {
-    setURL(...state, url);
+  const addURL = (fullURL, shortURL) => {
+    setURL([...urls, 
+      {
+        fullURL: fullURL,
+        shortURL: shortURL
+      }
+    ]);
   }
 
-  const addShortenedURL = (state, shortenedURL) => {
-    setShortenedURL(...state, shortenedURL);
-  }
+  useEffect(() => {
+    console.log(urls);
+  }, [urls]);
 
   return (
     <>
@@ -39,8 +41,8 @@ const App = () => {
       <URLForm
         onSubmit={onSubmit}
       />
-      {shortenedURLs.map((shortenedURL, i) => {
-        <ShortenedURL shortenedURL={shortenedURL} url={url[i]}/>
+      {urls.length > 0 && urls.map((url) => {
+        return <ShortenedURL shortURL={url.shortURL} fullURL={url.fullURL}/>
       })}
     </>
   );

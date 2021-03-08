@@ -9,16 +9,13 @@ import {
     SubmitButton,
 } from './styles/URLFormStyle';
 
-const URLForm = ({handleURL, onSubmit}) => {
+const URLForm = ({onSubmit}) => {
 
     const[url, setUrl] = useState('');
-    const[showShortenedURL, setShowShortenedURL] = useState('');
-    const[hash, setHash] = useState('');
-    const[shortenedURL, setShortenedURL] = useState('');
 
     const onKeyUpHandler = (e) => {
         if(e.keyCode === 13){
-            onSubmit();
+            onSubmit(url);
         }
     }
 
@@ -30,11 +27,8 @@ const URLForm = ({handleURL, onSubmit}) => {
                     type='text'
                     placeholder='Paste your url...' 
                     size='70'
-                    onChange={event => handleURL(event.target.value)}
+                    onChange={event => setUrl(event.target.value)}
                     onKeyUp={onKeyUpHandler}
-                />
-                <SubmitButton
-                    onClick={onSubmit}
                 />
             </FormContainer>
         </URLFormContainer>
